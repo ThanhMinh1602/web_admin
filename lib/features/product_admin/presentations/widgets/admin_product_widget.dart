@@ -10,6 +10,7 @@ import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
 import 'package:web_admin/entities/models/product/add_product_model.dart';
 import 'package:web_admin/entities/models/product/product_model.dart';
+import 'package:web_admin/entities/models/product/update_product_model.dart';
 import 'package:web_admin/features/product_admin/presentations/bloc/admin_product_bloc.dart';
 import 'package:web_admin/services/utils/validator.dart';
 
@@ -436,13 +437,11 @@ class AdminProductWidget extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Left side: Product details
                         Expanded(
                           flex: 2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Product name field
                               Text('Product name',
                                   style: AppStyle.adminLight14),
                               SizedBox(height: 10.0.h),
@@ -591,7 +590,8 @@ class AdminProductWidget extends StatelessWidget {
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     context.getBloc<AdminProductBloc>().add(
-                                          AdUpdateProductEvent(AddProductModel(
+                                          AdUpdateProductEvent(
+                                              UpdateProductModel(
                                             productId: product.id,
                                             productName: nameController.text,
                                             price: double.parse(
@@ -603,7 +603,7 @@ class AdminProductWidget extends StatelessWidget {
                                             maxSize: int.parse(
                                                 maxSizeController.text),
                                             cateId: state.idCate!,
-                                            desctiption:
+                                            description:
                                                 descriptionController.text,
                                             image: state.imageFile,
                                           )),

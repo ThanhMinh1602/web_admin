@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:web_admin/common/navigator/navigator.dart';
 import 'package:web_admin/entities/models/product/add_product_model.dart';
+import 'package:web_admin/entities/models/product/update_product_model.dart';
 import 'package:web_admin/entities/models/responses/category_model.dart';
 import 'package:web_admin/entities/models/product/product_model.dart';
 import 'package:web_admin/features/product_admin/data/admin_product_impl.dart';
@@ -97,9 +98,8 @@ extension AdminProductBlocExtension on AdminProductBloc {
       AdUpdateProductEvent event, Emitter<AdminProductState> emitter) async {
     emitter(state.copyWith(isLoading: true));
     await repository.updateProduct(event.product);
-    emitter(state.copyWith(
-      isLoading: false,
-    ));
+    emitter(state.copyWith(isLoading: false, imageFile: null, idCate: null));
+    appNavigator.pop();
     add(const ProductInitialEvent());
   }
 }

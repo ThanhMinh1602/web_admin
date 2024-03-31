@@ -24,7 +24,7 @@ mixin _$AdminProductEvent {
         adAddNewProductEvent,
     required TResult Function(String cateID) adOnSelectCategoryEvent,
     required TResult Function(String idProduct) adProductDeleteEvent,
-    required TResult Function(AddProductModel product) adProductUpdateEvent,
+    required TResult Function(UpdateProductModel product) adProductUpdateEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,7 +34,7 @@ mixin _$AdminProductEvent {
     TResult? Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult? Function(String cateID)? adOnSelectCategoryEvent,
     TResult? Function(String idProduct)? adProductDeleteEvent,
-    TResult? Function(AddProductModel product)? adProductUpdateEvent,
+    TResult? Function(UpdateProductModel product)? adProductUpdateEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,7 +44,7 @@ mixin _$AdminProductEvent {
     TResult Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult Function(String cateID)? adOnSelectCategoryEvent,
     TResult Function(String idProduct)? adProductDeleteEvent,
-    TResult Function(AddProductModel product)? adProductUpdateEvent,
+    TResult Function(UpdateProductModel product)? adProductUpdateEvent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -155,7 +155,7 @@ class _$ProductInitialEventImpl
         adAddNewProductEvent,
     required TResult Function(String cateID) adOnSelectCategoryEvent,
     required TResult Function(String idProduct) adProductDeleteEvent,
-    required TResult Function(AddProductModel product) adProductUpdateEvent,
+    required TResult Function(UpdateProductModel product) adProductUpdateEvent,
   }) {
     return productInitialEvent();
   }
@@ -168,7 +168,7 @@ class _$ProductInitialEventImpl
     TResult? Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult? Function(String cateID)? adOnSelectCategoryEvent,
     TResult? Function(String idProduct)? adProductDeleteEvent,
-    TResult? Function(AddProductModel product)? adProductUpdateEvent,
+    TResult? Function(UpdateProductModel product)? adProductUpdateEvent,
   }) {
     return productInitialEvent?.call();
   }
@@ -181,7 +181,7 @@ class _$ProductInitialEventImpl
     TResult Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult Function(String cateID)? adOnSelectCategoryEvent,
     TResult Function(String idProduct)? adProductDeleteEvent,
-    TResult Function(AddProductModel product)? adProductUpdateEvent,
+    TResult Function(UpdateProductModel product)? adProductUpdateEvent,
     required TResult orElse(),
   }) {
     if (productInitialEvent != null) {
@@ -296,7 +296,7 @@ class _$AdImagePickerEventEventImpl
         adAddNewProductEvent,
     required TResult Function(String cateID) adOnSelectCategoryEvent,
     required TResult Function(String idProduct) adProductDeleteEvent,
-    required TResult Function(AddProductModel product) adProductUpdateEvent,
+    required TResult Function(UpdateProductModel product) adProductUpdateEvent,
   }) {
     return adImagePickerEventEvent();
   }
@@ -309,7 +309,7 @@ class _$AdImagePickerEventEventImpl
     TResult? Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult? Function(String cateID)? adOnSelectCategoryEvent,
     TResult? Function(String idProduct)? adProductDeleteEvent,
-    TResult? Function(AddProductModel product)? adProductUpdateEvent,
+    TResult? Function(UpdateProductModel product)? adProductUpdateEvent,
   }) {
     return adImagePickerEventEvent?.call();
   }
@@ -322,7 +322,7 @@ class _$AdImagePickerEventEventImpl
     TResult Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult Function(String cateID)? adOnSelectCategoryEvent,
     TResult Function(String idProduct)? adProductDeleteEvent,
-    TResult Function(AddProductModel product)? adProductUpdateEvent,
+    TResult Function(UpdateProductModel product)? adProductUpdateEvent,
     required TResult orElse(),
   }) {
     if (adImagePickerEventEvent != null) {
@@ -465,7 +465,7 @@ class _$AdAddNewProductEventImpl
         adAddNewProductEvent,
     required TResult Function(String cateID) adOnSelectCategoryEvent,
     required TResult Function(String idProduct) adProductDeleteEvent,
-    required TResult Function(AddProductModel product) adProductUpdateEvent,
+    required TResult Function(UpdateProductModel product) adProductUpdateEvent,
   }) {
     return adAddNewProductEvent(addProductModel);
   }
@@ -478,7 +478,7 @@ class _$AdAddNewProductEventImpl
     TResult? Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult? Function(String cateID)? adOnSelectCategoryEvent,
     TResult? Function(String idProduct)? adProductDeleteEvent,
-    TResult? Function(AddProductModel product)? adProductUpdateEvent,
+    TResult? Function(UpdateProductModel product)? adProductUpdateEvent,
   }) {
     return adAddNewProductEvent?.call(addProductModel);
   }
@@ -491,7 +491,7 @@ class _$AdAddNewProductEventImpl
     TResult Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult Function(String cateID)? adOnSelectCategoryEvent,
     TResult Function(String idProduct)? adProductDeleteEvent,
-    TResult Function(AddProductModel product)? adProductUpdateEvent,
+    TResult Function(UpdateProductModel product)? adProductUpdateEvent,
     required TResult orElse(),
   }) {
     if (adAddNewProductEvent != null) {
@@ -640,7 +640,7 @@ class _$AdOnSelectCategoryEventImpl
         adAddNewProductEvent,
     required TResult Function(String cateID) adOnSelectCategoryEvent,
     required TResult Function(String idProduct) adProductDeleteEvent,
-    required TResult Function(AddProductModel product) adProductUpdateEvent,
+    required TResult Function(UpdateProductModel product) adProductUpdateEvent,
   }) {
     return adOnSelectCategoryEvent(cateID);
   }
@@ -653,7 +653,7 @@ class _$AdOnSelectCategoryEventImpl
     TResult? Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult? Function(String cateID)? adOnSelectCategoryEvent,
     TResult? Function(String idProduct)? adProductDeleteEvent,
-    TResult? Function(AddProductModel product)? adProductUpdateEvent,
+    TResult? Function(UpdateProductModel product)? adProductUpdateEvent,
   }) {
     return adOnSelectCategoryEvent?.call(cateID);
   }
@@ -666,7 +666,7 @@ class _$AdOnSelectCategoryEventImpl
     TResult Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult Function(String cateID)? adOnSelectCategoryEvent,
     TResult Function(String idProduct)? adProductDeleteEvent,
-    TResult Function(AddProductModel product)? adProductUpdateEvent,
+    TResult Function(UpdateProductModel product)? adProductUpdateEvent,
     required TResult orElse(),
   }) {
     if (adOnSelectCategoryEvent != null) {
@@ -815,7 +815,7 @@ class _$AdDeleteProductEventImpl
         adAddNewProductEvent,
     required TResult Function(String cateID) adOnSelectCategoryEvent,
     required TResult Function(String idProduct) adProductDeleteEvent,
-    required TResult Function(AddProductModel product) adProductUpdateEvent,
+    required TResult Function(UpdateProductModel product) adProductUpdateEvent,
   }) {
     return adProductDeleteEvent(idProduct);
   }
@@ -828,7 +828,7 @@ class _$AdDeleteProductEventImpl
     TResult? Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult? Function(String cateID)? adOnSelectCategoryEvent,
     TResult? Function(String idProduct)? adProductDeleteEvent,
-    TResult? Function(AddProductModel product)? adProductUpdateEvent,
+    TResult? Function(UpdateProductModel product)? adProductUpdateEvent,
   }) {
     return adProductDeleteEvent?.call(idProduct);
   }
@@ -841,7 +841,7 @@ class _$AdDeleteProductEventImpl
     TResult Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult Function(String cateID)? adOnSelectCategoryEvent,
     TResult Function(String idProduct)? adProductDeleteEvent,
-    TResult Function(AddProductModel product)? adProductUpdateEvent,
+    TResult Function(UpdateProductModel product)? adProductUpdateEvent,
     required TResult orElse(),
   }) {
     if (adProductDeleteEvent != null) {
@@ -912,7 +912,7 @@ abstract class _$$AdUpdateProductEventImplCopyWith<$Res> {
           $Res Function(_$AdUpdateProductEventImpl) then) =
       __$$AdUpdateProductEventImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({AddProductModel product});
+  $Res call({UpdateProductModel product});
 }
 
 /// @nodoc
@@ -932,7 +932,7 @@ class __$$AdUpdateProductEventImplCopyWithImpl<$Res>
       null == product
           ? _value.product
           : product // ignore: cast_nullable_to_non_nullable
-              as AddProductModel,
+              as UpdateProductModel,
     ));
   }
 }
@@ -945,7 +945,7 @@ class _$AdUpdateProductEventImpl
   const _$AdUpdateProductEventImpl(this.product);
 
   @override
-  final AddProductModel product;
+  final UpdateProductModel product;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -989,7 +989,7 @@ class _$AdUpdateProductEventImpl
         adAddNewProductEvent,
     required TResult Function(String cateID) adOnSelectCategoryEvent,
     required TResult Function(String idProduct) adProductDeleteEvent,
-    required TResult Function(AddProductModel product) adProductUpdateEvent,
+    required TResult Function(UpdateProductModel product) adProductUpdateEvent,
   }) {
     return adProductUpdateEvent(product);
   }
@@ -1002,7 +1002,7 @@ class _$AdUpdateProductEventImpl
     TResult? Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult? Function(String cateID)? adOnSelectCategoryEvent,
     TResult? Function(String idProduct)? adProductDeleteEvent,
-    TResult? Function(AddProductModel product)? adProductUpdateEvent,
+    TResult? Function(UpdateProductModel product)? adProductUpdateEvent,
   }) {
     return adProductUpdateEvent?.call(product);
   }
@@ -1015,7 +1015,7 @@ class _$AdUpdateProductEventImpl
     TResult Function(AddProductModel addProductModel)? adAddNewProductEvent,
     TResult Function(String cateID)? adOnSelectCategoryEvent,
     TResult Function(String idProduct)? adProductDeleteEvent,
-    TResult Function(AddProductModel product)? adProductUpdateEvent,
+    TResult Function(UpdateProductModel product)? adProductUpdateEvent,
     required TResult orElse(),
   }) {
     if (adProductUpdateEvent != null) {
@@ -1071,10 +1071,10 @@ class _$AdUpdateProductEventImpl
 }
 
 abstract class AdUpdateProductEvent implements AdminProductEvent {
-  const factory AdUpdateProductEvent(final AddProductModel product) =
+  const factory AdUpdateProductEvent(final UpdateProductModel product) =
       _$AdUpdateProductEventImpl;
 
-  AddProductModel get product;
+  UpdateProductModel get product;
   @JsonKey(ignore: true)
   _$$AdUpdateProductEventImplCopyWith<_$AdUpdateProductEventImpl>
       get copyWith => throw _privateConstructorUsedError;

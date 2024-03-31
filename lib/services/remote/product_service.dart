@@ -3,33 +3,22 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:web_admin/common/constants/define_collection.dart';
 import 'package:web_admin/entities/models/product/add_product_model.dart';
 import 'package:web_admin/entities/models/product/product_model.dart';
+import 'package:web_admin/entities/models/product/update_product_model.dart';
+import 'dart:math' as math;
 
 class ProductService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
-
-  Future<void> updateProduct(AddProductModel product) async {
+  Future<void> updateProduct(UpdateProductModel product) async {
     try {
       String idImage = product.productId!;
       String imageStoragePath =
           '/${AppDefineCollection.APP_PRODUCT}/${product.cateId}/$idImage';
-      List<int> sizes = [];
-      for (int i = product.minSize; i <= product.maxSize; i++) {
-        sizes.add(i);
-      }
-      final Map<String, dynamic> productData = {
-        'categoryId': product.cateId,
-        'name': product.productName,
-        'price': product.price,
-        'description': product.desctiption,
-        'sizes': sizes,
-        'quantity': product.quantity,
-        'createAt': Timestamp.now(),
-      };
 
+      final Map<String, dynamic> productData = product.toJson();
       if (product.image != null) {
         final Reference ref = storage.ref().child(imageStoragePath);
-        final UploadTask uploadTask = ref.putBlob(product.image);
+        final UploadTask uploadTask = ref.putBlob(product.image!);
         final TaskSnapshot downloadUrl = await uploadTask;
         final String imageUrl = await downloadUrl.ref.getDownloadURL();
         productData['image'] = imageUrl;
@@ -71,7 +60,7 @@ class ProductService {
             description: product.desctiption,
             sizes: sizes,
             viewCount: 0,
-            orderCount: 0,
+            orderCount: math.Random().nextInt(100),
             favourute: 0,
             quantity: product.quantity,
             createAt: Timestamp.now(),

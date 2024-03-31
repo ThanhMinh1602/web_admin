@@ -1,5 +1,7 @@
 import 'dart:html' as html;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UpdateProductModel {
   final String? productId;
   final String? cateId;
@@ -22,4 +24,16 @@ class UpdateProductModel {
     required this.quantity,
     this.image,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'categoryId': cateId,
+      'name': productName,
+      'price': price,
+      'description': description,
+      'sizes': List.generate(maxSize - minSize + 1, (index) => minSize + index),
+      'quantity': quantity,
+      'createAt': Timestamp.now(),
+    };
+  }
 }

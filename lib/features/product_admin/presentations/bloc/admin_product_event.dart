@@ -7,11 +7,11 @@ class AdminProductEvent with _$AdminProductEvent {
       AdImagePickerEventEvent;
   const factory AdminProductEvent.adAddNewProductEvent(
       AddProductModel addProductModel) = AdAddNewProductEvent;
-  const factory AdminProductEvent.adOnSelectCategoryEvent(
-      String cateID) = AdOnSelectCategoryEvent;
+  const factory AdminProductEvent.adOnSelectCategoryEvent(String cateID) =
+      AdOnSelectCategoryEvent;
 
   const factory AdminProductEvent.adProductDeleteEvent(String idProduct) =
       AdDeleteProductEvent;
   const factory AdminProductEvent.adProductUpdateEvent(
-      AddProductModel product) = AdUpdateProductEvent;
+      UpdateProductModel product) = AdUpdateProductEvent;
 }

@@ -1,4 +1,5 @@
 import 'package:web_admin/entities/models/product/add_product_model.dart';
+import 'package:web_admin/entities/models/product/update_product_model.dart';
 import 'package:web_admin/entities/models/responses/category_model.dart';
 import 'package:web_admin/entities/models/product/product_model.dart';
 import 'package:web_admin/features/product_admin/domain/repository/admin_product_repository_interface.dart';
@@ -24,7 +25,7 @@ class AdminProductRepositoryImpl implements IAdminProductRepository {
   }
 
   @override
-  Future<void> updateProduct(AddProductModel product) async {
+  Future<void> updateProduct(UpdateProductModel product) async {
     await productService.updateProduct(product);
   }
 
