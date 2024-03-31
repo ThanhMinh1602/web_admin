@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_admin/common/components/buttons/app_button.dart';
 import 'package:web_admin/common/components/dialog/app_dialog.dart';
@@ -7,9 +8,8 @@ import 'package:web_admin/common/components/textfields/app_text_field.dart';
 import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
-import 'package:web_admin/entities/models/requests/add_product_model.dart';
-import 'package:web_admin/entities/models/responses/category_model.dart';
-import 'package:web_admin/entities/models/responses/product_model.dart';
+import 'package:web_admin/entities/models/product/add_product_model.dart';
+import 'package:web_admin/entities/models/product/product_model.dart';
 import 'package:web_admin/features/product_admin/presentations/bloc/admin_product_bloc.dart';
 import 'package:web_admin/services/utils/validator.dart';
 
@@ -29,7 +29,13 @@ class AdminProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AdminProductBloc, AdminProductState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state.isLoading) {
+          EasyLoading.show();
+        } else {
+          EasyLoading.dismiss();
+        }
+      },
       builder: (context, state) {
         return Container(
           width: double.infinity,
@@ -586,6 +592,7 @@ class AdminProductWidget extends StatelessWidget {
                                   if (_formKey.currentState!.validate()) {
                                     context.getBloc<AdminProductBloc>().add(
                                           AdUpdateProductEvent(AddProductModel(
+                                            productId: product.id,
                                             productName: nameController.text,
                                             price: double.parse(
                                                 priceController.text.trim()),

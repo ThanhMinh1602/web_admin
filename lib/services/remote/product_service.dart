@@ -1,19 +1,55 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path/path.dart';
 import 'package:web_admin/common/constants/define_collection.dart';
-import 'package:web_admin/entities/models/requests/add_product_model.dart';
-import 'package:web_admin/entities/models/responses/product_model.dart';
+import 'package:web_admin/entities/models/product/add_product_model.dart';
+import 'package:web_admin/entities/models/product/product_model.dart';
 
 class ProductService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
+
+  Future<void> updateProduct(AddProductModel product) async {
+    try {
+      String idImage = product.productId!;
+      String imageStoragePath =
+          '/${AppDefineCollection.APP_PRODUCT}/${product.cateId}/$idImage';
+      List<int> sizes = [];
+      for (int i = product.minSize; i <= product.maxSize; i++) {
+        sizes.add(i);
+      }
+      final Map<String, dynamic> productData = {
+        'categoryId': product.cateId,
+        'name': product.productName,
+        'price': product.price,
+        'description': product.desctiption,
+        'sizes': sizes,
+        'quantity': product.quantity,
+        'createAt': Timestamp.now(),
+      };
+
+      if (product.image != null) {
+        final Reference ref = storage.ref().child(imageStoragePath);
+        final UploadTask uploadTask = ref.putBlob(product.image);
+        final TaskSnapshot downloadUrl = await uploadTask;
+        final String imageUrl = await downloadUrl.ref.getDownloadURL();
+        productData['image'] = imageUrl;
+      }
+
+      await _firestore
+          .collection(AppDefineCollection.APP_PRODUCT)
+          .doc(product.productId)
+          .update(productData);
+    } catch (e) {
+      throw Exception('Error updating product: $e');
+    }
+  }
+
   Future<void> addNewProduct(AddProductModel product) async {
     try {
       String docId =
           _firestore.collection(AppDefineCollection.APP_PRODUCT).doc().id;
       String imageStoragePath =
-          '/${AppDefineCollection.APP_PRODUCT}/${product.cateId}/';
+          '/${AppDefineCollection.APP_PRODUCT}/${product.cateId}/$docId'; // Thay đổi ở đây
       List<int> sizes = [];
       for (int i = product.minSize; i <= product.maxSize; i++) {
         sizes.add(i);
@@ -106,42 +142,6 @@ class ProductService {
       return matchedProducts;
     } catch (e) {
       throw Exception('Error searching products: $e');
-    }
-  }
-
-  Future<void> updateProduct(AddProductModel product) async {
-    try {
-      String fileName = basename(product.image.path);
-      String imageStoragePath =
-          '/${AppDefineCollection.APP_PRODUCT}/${product.cateId}/$fileName';
-      List<int> sizes = [];
-      for (int i = product.minSize; i <= product.maxSize; i++) {
-        sizes.add(i);
-      }
-      final Map<String, dynamic> productData = {
-        'categoryId': product.cateId,
-        'name': product.productName,
-        'price': product.price,
-        'description': product.desctiption,
-        'sizes': sizes,
-        'quantity': product.quantity,
-        'createAt': Timestamp.now(),
-      };
-
-      if (product.image != null) {
-        final Reference ref = storage.ref().child(imageStoragePath);
-        final UploadTask uploadTask = ref.putBlob(product.image);
-        final TaskSnapshot downloadUrl = await uploadTask;
-        final String imageUrl = await downloadUrl.ref.getDownloadURL();
-        productData['image'] = imageUrl;
-      }
-
-      await _firestore
-          .collection(AppDefineCollection.APP_PRODUCT)
-          .doc(product.productId)
-          .update(productData);
-    } catch (e) {
-      throw Exception('Error updating product: $e');
     }
   }
 
