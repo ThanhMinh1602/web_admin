@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:web_admin/common/navigator/navigator.dart';
-import 'package:web_admin/entities/models/responses/category_model.dart';
+import 'package:web_admin/entities/models/category_model.dart';
 import 'package:web_admin/features/category_admin/data/admin_cate_repository_impl.dart';
 import 'package:web_admin/features/product_admin/domain/usecase/ImagePickerUseCase.dart';
 

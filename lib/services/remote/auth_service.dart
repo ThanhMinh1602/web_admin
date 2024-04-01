@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:web_admin/common/constants/define_collection.dart';
-import 'package:web_admin/entities/models/requests/login_request.dart';
-import 'package:web_admin/entities/models/requests/signup_request.dart';
-import 'package:web_admin/entities/models/requests/user_model.dart';
+import 'package:web_admin/entities/models/login_request.dart';
+import 'package:web_admin/entities/models/signup_request.dart';
+import 'package:web_admin/entities/models/user_model.dart';
 import 'package:web_admin/services/sevice_status.dart';
 
 class AuthService {

@@ -1,4 +1,4 @@
-import 'package:web_admin/entities/models/responses/category_model.dart';
+import 'package:web_admin/entities/models/category_model.dart';
 
 abstract class IAdCategoryRepository {
   Future<List<CategoryModel>> getAllCategory();

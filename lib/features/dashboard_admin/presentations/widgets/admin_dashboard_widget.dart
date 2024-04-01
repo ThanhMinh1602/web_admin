@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
+import 'package:web_admin/entities/models/page_model.dart';
 import 'package:web_admin/features/category_admin/presentations/page/admin_category_page.dart';
 import 'package:web_admin/features/dashboard_admin/presentations/bloc/admin_dashboard_bloc.dart';
 import 'package:web_admin/features/product_admin/presentations/page/admin_product_page.dart';
@@ -14,20 +15,6 @@ class AdminDashboardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sideBarTitles = [
-      'Home',
-      'Products',
-      'Categorys',
-      'Payments',
-      'User',
-    ];
-    final List<Widget> pages = [
-      Container(),
-      const AdminAddProductPage(),
-      const AdminCategoryPage(),
-      const AdminAddProductPage(),
-      const AdminAddProductPage(),
-    ];
     return Scaffold(
       backgroundColor: AppColor.adminBackgroundColor,
       body: BlocConsumer<AdminDashboardBloc, AdminDashboardState>(
@@ -61,7 +48,7 @@ class AdminDashboardWidget extends StatelessWidget {
                       Expanded(
                         flex: 10,
                         child: ListView.builder(
-                          itemCount: sideBarTitles.length,
+                          itemCount: pages.length,
                           itemBuilder: (context, index) {
                             final isActive = state.pageIndex == index;
                             return _buildSideBarItem(
@@ -71,7 +58,7 @@ class AdminDashboardWidget extends StatelessWidget {
                               textColor: isActive
                                   ? AppColor.adminTextColor
                                   : AppColor.adminBackgroundColor,
-                              label: sideBarTitles[index],
+                              label: pages[index].title,
                               onTap: () => context
                                   .getBloc<AdminDashboardBloc>()
                                   .add(AdminDashBoardChangePageEvent(index)),
@@ -97,7 +84,7 @@ class AdminDashboardWidget extends StatelessWidget {
                         index: state.pageIndex,
                         children: List.generate(
                           pages.length,
-                          (_) => pages[state.pageIndex],
+                          (_) => pages[state.pageIndex].page,
                         ),
                       ),
                     ),

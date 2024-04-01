@@ -1,4 +1,4 @@
-import 'package:web_admin/entities/models/responses/category_model.dart';
+import 'package:web_admin/entities/models/category_model.dart';
 import 'package:web_admin/features/category_admin/domain/repository/admin_cate_repository_interface.dart';
 import 'package:web_admin/services/remote/category_service.dart';
 

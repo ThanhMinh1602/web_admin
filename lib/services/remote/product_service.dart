@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:web_admin/common/constants/define_collection.dart';
-import 'package:web_admin/entities/models/product/add_product_model.dart';
-import 'package:web_admin/entities/models/product/product_model.dart';
-import 'package:web_admin/entities/models/product/update_product_model.dart';
-import 'dart:math' as math;
+import 'package:web_admin/entities/models/add_product_model.dart';
+import 'package:web_admin/entities/models/product_model.dart';
+import 'package:web_admin/entities/models/update_product_model.dart';
 
 class ProductService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -60,7 +59,7 @@ class ProductService {
             description: product.desctiption,
             sizes: sizes,
             viewCount: 0,
-            orderCount: math.Random().nextInt(100),
+            orderCount: 0,
             favourute: 0,
             quantity: product.quantity,
             createAt: Timestamp.now(),

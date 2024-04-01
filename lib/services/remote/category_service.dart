@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:web_admin/common/constants/define_collection.dart';
-import 'package:web_admin/entities/models/responses/category_model.dart';
+import 'package:web_admin/entities/models/category_model.dart';
+import 'package:web_admin/services/remote/product_service.dart';
 
 class CategoryService {
+  final ProductService _productService = ProductService();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage storage = FirebaseStorage.instance;
   Future<List<CategoryModel>> fetchCategories() async {
@@ -75,6 +77,7 @@ class CategoryService {
           .collection(AppDefineCollection.APP_CATEGORY)
           .doc(idCate)
           .delete();
+      await _productService.deleteProductByIdCate(idCate);
       String imageStoragePath = '/${AppDefineCollection.APP_CATEGORY}/$idCate';
       final Reference ref = storage.ref().child(imageStoragePath);
       await ref.delete();

@@ -9,7 +9,7 @@ import 'package:web_admin/common/components/textfields/app_text_field.dart';
 import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
-import 'package:web_admin/entities/models/responses/category_model.dart';
+import 'package:web_admin/entities/models/category_model.dart';
 import 'package:web_admin/features/category_admin/presentations/bloc/admin_category_bloc.dart';
 import 'package:web_admin/services/utils/validator.dart';
 

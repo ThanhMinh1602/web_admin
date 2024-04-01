@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:web_admin/entities/models/local_model/cart_model.dart';
+import 'package:web_admin/entities/models/cart_model.dart';
 
 class PaymentModel {
   final String? uId;

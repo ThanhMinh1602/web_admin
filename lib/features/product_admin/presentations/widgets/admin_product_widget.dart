@@ -8,9 +8,9 @@ import 'package:web_admin/common/components/textfields/app_text_field.dart';
 import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
-import 'package:web_admin/entities/models/product/add_product_model.dart';
-import 'package:web_admin/entities/models/product/product_model.dart';
-import 'package:web_admin/entities/models/product/update_product_model.dart';
+import 'package:web_admin/entities/models/add_product_model.dart';
+import 'package:web_admin/entities/models/product_model.dart';
+import 'package:web_admin/entities/models/update_product_model.dart';
 import 'package:web_admin/features/product_admin/presentations/bloc/admin_product_bloc.dart';
 import 'package:web_admin/services/utils/validator.dart';
 

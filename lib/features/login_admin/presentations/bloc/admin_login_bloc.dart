@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:web_admin/common/navigator/navigator.dart';
-import 'package:web_admin/entities/models/requests/login_request.dart';
+import 'package:web_admin/entities/models/login_request.dart';
 import 'package:web_admin/features/login_admin/data/admin_login_repositpry_impl.dart';
 import 'package:web_admin/services/sevice_status.dart';
 part 'admin_login_event.dart';

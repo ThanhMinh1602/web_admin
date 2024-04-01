@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math' as math;
 
 class ProductModel {
   final String id;
@@ -52,10 +53,10 @@ class ProductModel {
         'price': price,
         'description': description,
         'sizes': sizes,
-        'viewCount': 0,
-        'orderCount': 0,
+        'viewCount': math.Random().nextInt(1000),
+        'orderCount': math.Random().nextInt(1000),
         'quantity': quantity,
-        'favourute': 0,
+        'favourute': math.Random().nextInt(1000),
         'createAt': Timestamp.now(),
       };
 }

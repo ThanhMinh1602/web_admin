@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:web_admin/common/constants/define_collection.dart';
-import 'package:web_admin/entities/models/requests/payment_model.dart';
+import 'package:web_admin/entities/models/payment_model.dart';
 
 class PaymentService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

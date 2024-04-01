@@ -2,10 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:web_admin/common/navigator/navigator.dart';
-import 'package:web_admin/entities/models/product/add_product_model.dart';
-import 'package:web_admin/entities/models/product/update_product_model.dart';
-import 'package:web_admin/entities/models/responses/category_model.dart';
-import 'package:web_admin/entities/models/product/product_model.dart';
+import 'package:web_admin/entities/models/add_product_model.dart';
+import 'package:web_admin/entities/models/update_product_model.dart';
+import 'package:web_admin/entities/models/category_model.dart';
+import 'package:web_admin/entities/models/product_model.dart';
 import 'package:web_admin/features/product_admin/data/admin_product_impl.dart';
 import 'package:web_admin/features/product_admin/domain/usecase/ImagePickerUseCase.dart';
 // ignore: avoid_web_libraries_in_flutter

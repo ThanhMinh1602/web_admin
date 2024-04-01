@@ -6,7 +6,7 @@ import 'package:web_admin/common/components/textfields/app_text_field_password.d
 import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
-import 'package:web_admin/entities/models/requests/login_request.dart';
+import 'package:web_admin/entities/models/login_request.dart';
 import 'package:web_admin/features/login_admin/presentations/bloc/admin_login_bloc.dart';
 import 'package:web_admin/services/utils/validator.dart';
 
