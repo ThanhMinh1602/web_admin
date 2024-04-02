@@ -26,6 +26,7 @@ class AdminProductBloc extends Bloc<AdminProductEvent, AdminProductState> {
     required this.imagePickerUseCase,
   }) : super(const _AdminProductState()) {
     on(_onInitial);
+    on(_onSearchProduct);
     on(_onSelectCategory);
     on(_onPickerImage);
     on(_onAddNewProduct);
@@ -50,6 +51,12 @@ extension AdminProductBlocExtension on AdminProductBloc {
         idCate: idCate,
       ),
     );
+  }
+
+  Future<void> _onSearchProduct(
+      OnTapSearchProductEvent event, Emitter<AdminProductState> emitter) async {
+    final products = await repository.searchProduct(event.textSearch);
+    emitter(state.copyWith(products: products));
   }
 
   Future<void> _onSelectCategory(

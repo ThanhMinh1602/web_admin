@@ -12,7 +12,8 @@ import 'package:web_admin/entities/models/add_product_model.dart';
 import 'package:web_admin/entities/models/product_model.dart';
 import 'package:web_admin/entities/models/update_product_model.dart';
 import 'package:web_admin/features/product_admin/presentations/bloc/admin_product_bloc.dart';
-import 'package:web_admin/services/utils/validator.dart';
+import 'package:web_admin/utils/format_text.dart';
+import 'package:web_admin/utils/validator.dart';
 
 // ignore: must_be_immutable
 class AdminProductWidget extends StatelessWidget {
@@ -24,7 +25,7 @@ class AdminProductWidget extends StatelessWidget {
   final TextEditingController minSizeController = TextEditingController();
   final TextEditingController maxSizeController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-
+  final TextEditingController _searchController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -50,7 +51,13 @@ class AdminProductWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildProductButtonAdd(context),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildProductButtonAdd(context),
+                  _buildSearchBar(context)
+                ],
+              ),
               const SizedBox(height: 30.0),
               Expanded(
                 child: Container(
@@ -79,7 +86,30 @@ class AdminProductWidget extends StatelessWidget {
     );
   }
 
-  AppButton _buildProductButtonAdd(BuildContext context) {
+  Widget _buildSearchBar(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SearchBar(
+        controller: _searchController,
+        onChanged: (value) => context
+            .getBloc<AdminProductBloc>()
+            .add(OnTapSearchProductEvent(value)),
+        hintText: 'Looking for shoes',
+        hintStyle: MaterialStateProperty.all(
+          AppStyle.regular10.copyWith(color: AppColor.subTextColor),
+        ),
+        backgroundColor:
+            MaterialStateProperty.all(Color.fromARGB(232, 238, 238, 238)),
+        leading: const Icon(Icons.search, color: AppColor.subTextColor),
+        elevation: MaterialStateProperty.all(0),
+        padding: MaterialStateProperty.all(
+          const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8.0),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProductButtonAdd(BuildContext context) {
     return AppButton(
       buttonText: 'Add product',
       boderRadius: 5.0,
@@ -131,7 +161,7 @@ class AdminProductWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 20.0.h),
                   Text(
-                    'Price: ${product.price} đ',
+                    'Price: ${FormatText.formatUSD(product.price)}',
                     style: AppStyle.regular12,
                   ),
                   Text(
@@ -198,17 +228,14 @@ class AdminProductWidget extends StatelessWidget {
                     ),
                     Text('Add new product', style: AppStyle.adminMedium16),
                     SizedBox(height: 50.0.h),
-                    // Form fields
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Left side: Product details
                         Expanded(
                           flex: 2,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Product name field
                               Text('Product name',
                                   style: AppStyle.adminLight14),
                               SizedBox(height: 10.0.h),
@@ -365,21 +392,24 @@ class AdminProductWidget extends StatelessWidget {
                                   if (_formKey.currentState!.validate() &&
                                       state.imageFile != null) {
                                     context.getBloc<AdminProductBloc>().add(
-                                          AdAddNewProductEvent(AddProductModel(
-                                            productName: nameController.text,
-                                            price: double.parse(
-                                                priceController.text.trim()),
-                                            quantity: int.parse(
-                                                quantityController.text.trim()),
-                                            minSize: int.parse(
-                                                minSizeController.text),
-                                            maxSize: int.parse(
-                                                maxSizeController.text),
-                                            cateId: state.idCate!,
-                                            desctiption:
-                                                descriptionController.text,
-                                            image: state.imageFile!,
-                                          )),
+                                          AdAddNewProductEvent(
+                                            AddProductModel(
+                                              productName: nameController.text,
+                                              price: double.parse(
+                                                  priceController.text.trim()),
+                                              quantity: int.parse(
+                                                  quantityController.text
+                                                      .trim()),
+                                              minSize: int.parse(
+                                                  minSizeController.text),
+                                              maxSize: int.parse(
+                                                  maxSizeController.text),
+                                              cateId: state.idCate!,
+                                              desctiption:
+                                                  descriptionController.text,
+                                              image: state.imageFile!,
+                                            ),
+                                          ),
                                         );
                                   }
                                 },
@@ -407,6 +437,9 @@ class AdminProductWidget extends StatelessWidget {
     minSizeController.text = product.sizes.first.toString();
     maxSizeController.text = product.sizes.last.toString();
     descriptionController.text = product.description;
+    context.getBloc<AdminProductBloc>().add(
+          AdOnSelectCategoryEvent(product.categoryId),
+        );
     return BlocProvider.value(
       value: BlocProvider.of<AdminProductBloc>(context),
       child: BlocBuilder<AdminProductBloc, AdminProductState>(
@@ -518,12 +551,13 @@ class AdminProductWidget extends StatelessWidget {
                                             horizontal: 16.0),
                                         icon: const SizedBox(),
                                         underline: const SizedBox(),
-                                        value: product.categoryId,
+                                        value: state.idCate,
                                         onChanged: (value) {
                                           context
                                               .getBloc<AdminProductBloc>()
-                                              .add(AdOnSelectCategoryEvent(
-                                                  value!));
+                                              .add(
+                                                AdOnSelectCategoryEvent(value!),
+                                              );
                                         },
                                         items: state.categories.map((category) {
                                           return DropdownMenuItem<String>(
@@ -626,7 +660,6 @@ class AdminProductWidget extends StatelessWidget {
     );
   }
 
-  // Build a text field for size input
   Expanded _buildSizeInput(
       {TextEditingController? controller, String? hintText}) {
     return Expanded(

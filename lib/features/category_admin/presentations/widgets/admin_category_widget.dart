@@ -11,7 +11,7 @@ import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
 import 'package:web_admin/entities/models/category_model.dart';
 import 'package:web_admin/features/category_admin/presentations/bloc/admin_category_bloc.dart';
-import 'package:web_admin/services/utils/validator.dart';
+import 'package:web_admin/utils/validator.dart';
 
 class AdminCategoryWidget extends StatelessWidget {
   AdminCategoryWidget({super.key});
@@ -34,7 +34,7 @@ class AdminCategoryWidget extends StatelessWidget {
           margin: EdgeInsets.all(20.0.h),
           decoration: BoxDecoration(
             color: AppColor.whiteColor,
-            borderRadius: BorderRadius.circular(10.0.r),  
+            borderRadius: BorderRadius.circular(10.0.r),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,18 +207,16 @@ class AdminCategoryWidget extends StatelessWidget {
                           boderRadius: 10.0,
                           buttonText: 'Submit',
                           onPressed: () {
-                            if (state.imageFile != null) {
-                              context.getBloc<AdminCategoryBloc>().add(
-                                    AdUpdateCategoryEvent(
-                                      CategoryModel(
-                                        id: category.id!,
-                                        name: nameController.text,
-                                        image: state.imageFile,
-                                        createAt: Timestamp.now(),
-                                      ),
+                            context.getBloc<AdminCategoryBloc>().add(
+                                  AdUpdateCategoryEvent(
+                                    CategoryModel(
+                                      id: category.id!,
+                                      name: nameController.text,
+                                      image: state.imageFile,
+                                      createAt: Timestamp.now(),
                                     ),
-                                  );
-                            }
+                                  ),
+                                );
                           },
                           minimumSize: const Size.fromHeight(50.0),
                         )

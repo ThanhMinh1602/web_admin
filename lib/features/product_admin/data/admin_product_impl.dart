@@ -33,4 +33,9 @@ class AdminProductRepositoryImpl implements IAdminProductRepository {
   Future<List<ProductModel>> getProducts() async {
     return await productService.fetchAllProductsByCreateAt();
   }
+
+  @override
+  Future<List<ProductModel>> searchProduct(String searchText) async {
+    return await productService.searchProducts(searchText);
+  }
 }

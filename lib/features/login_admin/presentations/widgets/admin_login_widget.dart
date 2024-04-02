@@ -8,7 +8,7 @@ import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
 import 'package:web_admin/entities/models/login_request.dart';
 import 'package:web_admin/features/login_admin/presentations/bloc/admin_login_bloc.dart';
-import 'package:web_admin/services/utils/validator.dart';
+import 'package:web_admin/utils/validator.dart';
 
 class AdminLoginWidget extends StatelessWidget {
   const AdminLoginWidget({super.key});

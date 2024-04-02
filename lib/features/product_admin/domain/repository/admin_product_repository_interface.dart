@@ -9,4 +9,5 @@ abstract class IAdminProductRepository {
   Future<void> addNewProduct(AddProductModel product);
   Future<void> deleteProduct(String id);
   Future<void> updateProduct(UpdateProductModel product);
+  Future<List<ProductModel>> searchProduct(String searchText);
 }

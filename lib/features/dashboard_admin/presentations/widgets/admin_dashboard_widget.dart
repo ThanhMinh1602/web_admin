@@ -6,9 +6,7 @@ import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
 import 'package:web_admin/entities/models/page_model.dart';
-import 'package:web_admin/features/category_admin/presentations/page/admin_category_page.dart';
 import 'package:web_admin/features/dashboard_admin/presentations/bloc/admin_dashboard_bloc.dart';
-import 'package:web_admin/features/product_admin/presentations/page/admin_product_page.dart';
 
 class AdminDashboardWidget extends StatelessWidget {
   const AdminDashboardWidget({super.key});

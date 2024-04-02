@@ -9,7 +9,8 @@ class AdminProductEvent with _$AdminProductEvent {
       AddProductModel addProductModel) = AdAddNewProductEvent;
   const factory AdminProductEvent.adOnSelectCategoryEvent(String cateID) =
       AdOnSelectCategoryEvent;
-
+  const factory AdminProductEvent.onTapSearchProductEvent(String textSearch) =
+      OnTapSearchProductEvent;
   const factory AdminProductEvent.adProductDeleteEvent(String idProduct) =
       AdDeleteProductEvent;
   const factory AdminProductEvent.adProductUpdateEvent(
