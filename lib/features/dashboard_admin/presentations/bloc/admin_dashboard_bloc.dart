@@ -17,7 +17,7 @@ class AdminDashboardBloc
 extension AdminDashboardBlocExtension on AdminDashboardBloc {
   Future<void> _onInitialAdminDashboard(AdminDashBoardInitialEvent event,
       Emitter<AdminDashboardState> emitter) async {
-    emitter(state.copyWith(pageIndex: 1));
+    emitter(state.copyWith(pageIndex: 0));
   }
 
   Future<void> _onChangePage(AdminDashBoardChangePageEvent event,

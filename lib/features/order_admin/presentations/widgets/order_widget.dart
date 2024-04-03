@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:web_admin/common/components/dialog/app_dialog.dart';
 import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
@@ -44,7 +45,7 @@ class OrderWidget extends StatelessWidget {
                     ),
                     child: ListView(
                       children: [
-                        _buildOderItemList(),
+                        _buildOderItemList(context),
                         ListView.separated(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -55,29 +56,23 @@ class OrderWidget extends StatelessWidget {
                           ),
                           itemBuilder: (context, index) {
                             final data = state.payments[index];
-                            return GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (_) {
-                                    return _buildFormShowOder(context,
-                                        payment: data);
-                                  },
-                                );
-                              },
-                              child: _buildOderItemList(
-                                  isHeader: false,
-                                  orderId: data.paymentId,
-                                  customerName: data.customerName,
-                                  paymentMethod: data.paymentMethod,
-                                  price: FormatText.formatUSD(
-                                      data.totalPrice!.toDouble()),
-                                  orderDate:
-                                      FormatText.formatDate(data.createdAt!),
-                                  status: data.paymentStatus
-                                      ? 'completed'
-                                      : 'not completed'),
-                            );
+                            return _buildOderItemList(context,
+                                onTapShowDetailOrder: () => showDialog(
+                                      context: context,
+                                      builder: (_) {
+                                        return _buildFormShowOder(context,
+                                            payment: data);
+                                      },
+                                    ),
+                                isHeader: false,
+                                orderId: data.paymentId,
+                                customerName: data.customerName,
+                                paymentMethod: data.paymentMethod,
+                                price: FormatText.formatUSD(
+                                    data.totalPrice!.toDouble()),
+                                orderDate:
+                                    FormatText.formatDate(data.createdAt!),
+                                status: data.paymentStatus ? 'Paid' : 'Unpaid');
                           },
                         ),
                       ],
@@ -188,9 +183,8 @@ class OrderWidget extends StatelessWidget {
                                 label: payment.paymentMethod),
                             _buildListRightItem(
                                 title: 'Payment status:',
-                                label: payment.paymentStatus
-                                    ? 'Đã thanh toán'
-                                    : 'Chưa thanh toán'),
+                                label:
+                                    payment.paymentStatus ? 'Paid' : 'Unpaid'),
                           ],
                         ),
                       )),
@@ -310,30 +304,27 @@ class OrderWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildOderItemList(
-      {String? id,
-      String? orderId = 'ORDER ID',
+  Widget _buildOderItemList(BuildContext context,
+      {String? orderId = 'ORDER ID',
       String? customerName = 'CUSTOM NAME',
       String? paymentMethod = 'PAYMENT METHOD',
       String? price = 'PRICE',
       String? orderDate = "ORDER DATE",
       String? status = 'STATUS',
+      void Function()? onTapShowDetailOrder,
       bool? isHeader = true}) {
     return ListTile(
-      leading: id != null
-          ? Text(
-              id,
-              style: AppStyle.regular12.copyWith(fontWeight: FontWeight.bold),
-            )
-          : const SizedBox(),
       title: Row(
         children: [
           Expanded(
             flex: 3,
-            child: Text(
-              orderId ?? '',
-              style: AppStyle.regular12.copyWith(
-                  fontWeight: isHeader == true ? FontWeight.bold : null),
+            child: GestureDetector(
+              onTap: onTapShowDetailOrder,
+              child: Text(
+                orderId ?? '',
+                style: AppStyle.regular12.copyWith(
+                    fontWeight: isHeader == true ? FontWeight.bold : null),
+              ),
             ),
           ),
           Expanded(
@@ -362,14 +353,6 @@ class OrderWidget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              price ?? '',
-              style: AppStyle.regular12.copyWith(
-                  fontWeight: isHeader == true ? FontWeight.bold : null),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Text(
               orderDate ?? '',
               style: AppStyle.regular12.copyWith(
                   fontWeight: isHeader == true ? FontWeight.bold : null),
@@ -382,6 +365,31 @@ class OrderWidget extends StatelessWidget {
               style: AppStyle.regular12.copyWith(
                   fontWeight: isHeader == true ? FontWeight.bold : null),
             ),
+          ),
+          Expanded(
+            flex: 1,
+            child: isHeader == true
+                ? const SizedBox()
+                : Row(
+                    children: [
+                      Expanded(
+                          child: GestureDetector(
+                        onTap: () => AppDiaLog.showAwesomeConfirmDialog(
+                          context,
+                          content: 'Do you want to cancel this order?',
+                          btnOkOnPress: () => context
+                              .getBloc<OrderBloc>()
+                              .add(OnTapCancelOrderEvent(orderId!)),
+                        ),
+                        child: const Icon(Icons.remove_circle_outline,
+                            color: Colors.red),
+                      )),
+                      SizedBox(width: 20.0.w),
+                      const Expanded(
+                          child: Icon(Icons.check_circle_outlined,
+                              color: Colors.green)),
+                    ],
+                  ),
           ),
         ],
       ),

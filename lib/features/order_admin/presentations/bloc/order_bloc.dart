@@ -10,16 +10,25 @@ part 'order_bloc.freezed.dart';
 class OrderBloc extends Bloc<OrderEvent, OrderState> {
   final OrderRepositoryImpl repository;
   OrderBloc({required this.repository}) : super(const _OrderState()) {
-    on(onInitial);
+    on(_onInitial);
+    on(_onCancelOrder);
     add(const OrderInitialEvent());
   }
 }
 
 extension OrderBlocExtension on OrderBloc {
-  Future<void> onInitial(
+  Future<void> _onInitial(
       OrderInitialEvent event, Emitter<OrderState> emitter) async {
     emitter(state.copyWith(isLoading: true));
     final payments = await repository.getAllOrder();
     emitter(state.copyWith(isLoading: false, payments: payments));
+  }
+
+  Future<void> _onCancelOrder(
+      OnTapCancelOrderEvent event, Emitter<OrderState> emitter) async {
+    emitter(state.copyWith(isLoading: true));
+    await repository.cancelOrder(event.paymentId);
+    emitter(state.copyWith(isLoading: false));
+    add(const OrderInitialEvent());
   }
 }

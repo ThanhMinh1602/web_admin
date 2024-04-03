@@ -18,4 +18,15 @@ class OrderService {
       throw Exception('Error fetching payments: $e');
     }
   }
+
+  Future<void> deletePaymentById(String paymentId) async {
+    try {
+      await _firestore
+          .collection(AppDefineCollection.APP_PAYMENT)
+          .doc(paymentId)
+          .delete();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
