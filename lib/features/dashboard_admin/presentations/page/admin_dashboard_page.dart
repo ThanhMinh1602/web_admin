@@ -4,13 +4,15 @@ import 'package:web_admin/features/dashboard_admin/presentations/binding/admin_d
 import 'package:web_admin/features/dashboard_admin/presentations/widgets/admin_dashboard_widget.dart';
 
 class AdminDashboardPage extends StatelessWidget {
-  const AdminDashboardPage({super.key});
-
+  const AdminDashboardPage({super.key, required this.isAdmin});
+  final bool isAdmin;
   @override
   Widget build(BuildContext context) {
-    return const BlocProvider(
+    return BlocProvider(
       create: AdminDashBoardBinding.generateBloc,
-      child: AdminDashboardWidget(),
+      child: AdminDashboardWidget(
+        isAdmin: isAdmin,
+      ),
     );
   }
 }

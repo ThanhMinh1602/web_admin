@@ -10,12 +10,6 @@ class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Future<SignupResult> signUpWithEmail(SignupRequest signupRequest) async {
     try {
-      final auth = await FirebaseAuth.instance
-          // ignore: deprecated_member_use
-          .fetchSignInMethodsForEmail(signupRequest.email);
-      if (auth.isNotEmpty) {
-        return SignupResult.emailAlreadyExists;
-      }
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: signupRequest.email,
@@ -37,32 +31,44 @@ class AuthService {
     }
   }
 
-  Future<bool> checkAdmin(String email) async {
+  Future<bool?> checkRole(String email) async {
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection(AppDefineCollection.APP_ADMIN_ACCOUNT)
+      final querySnapshot = await _firestore
+          .collection(AppDefineCollection.APP_USER)
           .where('email', isEqualTo: email)
           .get();
-      return querySnapshot.docs.isNotEmpty;
+      if (querySnapshot.docs.isNotEmpty) {
+        final role = querySnapshot.docs.first;
+        if (role['role'] == 'admin') {
+          return true;
+        } else if (role['role'] == 'staff') {
+          return false;
+        } else {
+          return null;
+        }
+      } else {
+        return null;
+      }
     } catch (e) {
-      throw Exception('Error checking admin: $e');
+      throw Exception('Error checking role: $e');
     }
   }
 
   Future<SigninResult> signInWithEmail(LoginRequest loginRequest) async {
     try {
-      final isAdmin = await checkAdmin(loginRequest.email);
-      final result = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: loginRequest.email,
-        password: loginRequest.password,
-      );
-
-      if (result.user != null) {
-        if (isAdmin) {
-          return SigninResult.successIsAdmin;
-        } else {
-          return SigninResult.successIsUser;
-        }
+      final check = await checkRole(loginRequest.email);
+      if (check == true) {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: loginRequest.email,
+          password: loginRequest.password,
+        );
+        return SigninResult.successIsAdmin;
+      } else if (check == false) {
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: loginRequest.email,
+          password: loginRequest.password,
+        );
+        return SigninResult.successIsStaff;
       } else {
         return SigninResult.failure;
       }

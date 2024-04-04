@@ -6,13 +6,14 @@ class UserModel {
   final String? password;
   final String? avatar;
   final Timestamp? createdAt;
-
+  final String? role;
   UserModel({
     this.name,
     required this.email,
     required this.password,
     this.avatar,
     this.createdAt,
+    this.role,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +23,7 @@ class UserModel {
       password: json['password'],
       avatar: json['avatar'],
       createdAt: json['createdAt'],
+      role: json['role'],
     );
   }
 

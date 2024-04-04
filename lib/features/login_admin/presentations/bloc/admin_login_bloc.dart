@@ -29,10 +29,13 @@ extension ExtensionAdminLoginBloc on AdminLoginBloc {
     emitter(state.copyWith(isLoading: true));
     final result = await repository.adminLogin(event.loginRequest);
     if (result == SigninResult.successIsAdmin) {
-      appNavigator.pushAndRemoveUntil(
-          screen: const ScreenType.adminDashBoard());
-      EasyLoading.showSuccess('Sign in success');
+      emitter(state.copyWith(isLoading: false));
+      appNavigator.push(screen: const ScreenType.adminDashBoard(true));
+    } else if (result == SigninResult.successIsStaff) {
+      emitter(state.copyWith(isLoading: false));
+      appNavigator.push(screen: const ScreenType.adminDashBoard(false));
     } else {
+      emitter(state.copyWith(isLoading: false));
       EasyLoading.showError('Email or password is incorrect');
     }
   }

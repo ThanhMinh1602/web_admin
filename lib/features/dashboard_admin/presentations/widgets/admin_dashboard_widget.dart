@@ -6,13 +6,29 @@ import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
 import 'package:web_admin/entities/models/page_model.dart';
+import 'package:web_admin/features/category_admin/presentations/page/admin_category_page.dart';
 import 'package:web_admin/features/dashboard_admin/presentations/bloc/admin_dashboard_bloc.dart';
+import 'package:web_admin/features/home_admin/presentations/page/home_page.dart';
+import 'package:web_admin/features/order_admin/presentations/page/order_page.dart';
+import 'package:web_admin/features/product_admin/presentations/page/admin_product_page.dart';
+import 'package:web_admin/features/staff_manager/presentations/page/staff_manager_page.dart';
 
+// ignore: must_be_immutable
 class AdminDashboardWidget extends StatelessWidget {
-  const AdminDashboardWidget({super.key});
-
+  final bool isAdmin;
+  AdminDashboardWidget({super.key, required this.isAdmin});
+  List<PageModel> pages = [
+    PageModel(title: 'Home Page', page: const HomePage()),
+    PageModel(title: 'Products', page: const AdminAddProductPage()),
+    PageModel(title: 'Categories', page: const AdminCategoryPage()),
+    PageModel(title: 'Orders', page: const OrderPage()),
+  ];
   @override
   Widget build(BuildContext context) {
+    if (isAdmin) {
+      pages.add(
+          PageModel(title: 'Staff manager', page: const StaffManagerPage()));
+    }
     return Scaffold(
       backgroundColor: AppColor.adminBackgroundColor,
       body: BlocConsumer<AdminDashboardBloc, AdminDashboardState>(
@@ -48,12 +64,11 @@ class AdminDashboardWidget extends StatelessWidget {
                         child: ListView.builder(
                           itemCount: pages.length,
                           itemBuilder: (context, index) {
-                            final isActive = state.pageIndex == index;
                             return _buildSideBarItem(
-                              backgroundColor: isActive
+                              backgroundColor: state.pageIndex == index
                                   ? AppColor.adminBackgroundColor
                                   : AppColor.adminTextColor,
-                              textColor: isActive
+                              textColor: state.pageIndex == index
                                   ? AppColor.adminTextColor
                                   : AppColor.adminBackgroundColor,
                               label: pages[index].title,
