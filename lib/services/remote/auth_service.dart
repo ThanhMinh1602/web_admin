@@ -22,7 +22,7 @@ class AuthService {
           avatar: 'https://avatar-management.services.atlassian.com/default/16',
           name: signupRequest.name);
       await FirebaseFirestore.instance
-          .collection('users')
+          .collection(AppDefineCollection.APP_ACCOUNT)
           .doc(uid)
           .set(usermodel.toJson());
       return SignupResult.success;
@@ -34,7 +34,7 @@ class AuthService {
   Future<bool?> checkRole(String email) async {
     try {
       final querySnapshot = await _firestore
-          .collection(AppDefineCollection.APP_USER)
+          .collection(AppDefineCollection.APP_ACCOUNT)
           .where('email', isEqualTo: email)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
@@ -80,7 +80,7 @@ class AuthService {
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
-
+  
   Future<void> updatePassword(String newPassword) async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -92,7 +92,7 @@ class AuthService {
       }
       await currentUser.updatePassword(newPassword);
       _firestore
-          .collection(AppDefineCollection.APP_USER)
+          .collection(AppDefineCollection.APP_ACCOUNT)
           .doc(currentUser.uid)
           .update({'password': newPassword});
     } on FirebaseAuthException catch (e) {
@@ -105,12 +105,28 @@ class AuthService {
   Future<List<UserModel>> fetchUser() async {
     try {
       final queryData =
-          await _firestore.collection(AppDefineCollection.APP_USER).get();
+          await _firestore.collection(AppDefineCollection.APP_ACCOUNT).get();
       var userData =
           queryData.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
       return userData;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<void> deleteStaff(UserModel userModel) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: userModel.email!,
+        password: userModel.password!,
+      );
+      FirebaseAuth.instance.currentUser!.delete();
+      await _firestore
+          .collection(AppDefineCollection.APP_ACCOUNT)
+          .doc(userModel.id)
+          .delete();
+    } catch (e) {
+      print(e);
     }
   }
 }
