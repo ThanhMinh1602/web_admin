@@ -32,7 +32,7 @@ class HomeRepositoryImpl implements IHomeRepository {
 
   @override
   Future<int> totalUser() async {
-    final totalUser = await authService.fetchUser();
+    final totalUser = await authService.getCustomer();
     return totalUser.length;
   }
 }

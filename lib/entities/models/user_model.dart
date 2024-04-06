@@ -5,7 +5,7 @@ class UserModel {
   final String? name;
   final String? email;
   final String? password;
-  final String? avatar;
+  final dynamic avatar;
   final Timestamp? createdAt;
   final String? role;
   UserModel({

@@ -8,7 +8,7 @@ class StaffManagerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BlocProvider(
+    return  BlocProvider(
       create: StaffManagerBinding.generateBloc,
       child: StaffManagerWidget(),
     );

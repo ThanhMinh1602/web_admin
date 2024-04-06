@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:web_admin/features/dashboard_admin/presentations/page/admin_dashboard_page.dart';
+import 'package:web_admin/features/login_admin/presentations/page/admin_login_page.dart';
 
 part 'screen_type.dart';
 part 'navigation_type.dart';

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/features/dashboard_admin/presentations/page/admin_dashboard_page.dart';
+import 'package:web_admin/features/login_admin/presentations/page/admin_login_page.dart';
 import 'package:web_admin/services/firebase_options.dart';
 
 void main() async {
@@ -32,9 +33,10 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(colorSchemeSeed: AppColor.primaryColor),
           debugShowCheckedModeBanner: false,
           title: 'NIKE SHOE ADMIN',
-          home: const AdminDashboardPage(
-            isAdmin: true,
-          ),
+          home: const AdminLoginPage(),
+          // home: const AdminDashboardPage(
+          //   isAdmin: true,
+          // ),
           builder: EasyLoading.init(),
         );
       },

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:web_admin/common/constants/app_color.dart';
 import 'package:web_admin/common/constants/app_style.dart';
 import 'package:web_admin/common/extensions/build_context_extension.dart';
+import 'package:web_admin/common/navigator/navigator.dart';
 import 'package:web_admin/entities/models/page_model.dart';
 import 'package:web_admin/features/category_admin/presentations/page/admin_category_page.dart';
 import 'package:web_admin/features/dashboard_admin/presentations/bloc/admin_dashboard_bloc.dart';
@@ -60,25 +61,38 @@ class AdminDashboardWidget extends StatelessWidget {
                       ),
                       const Divider(height: 0),
                       Expanded(
-                        flex: 10,
-                        child: ListView.builder(
-                          itemCount: pages.length,
-                          itemBuilder: (context, index) {
-                            return _buildSideBarItem(
-                              backgroundColor: state.pageIndex == index
-                                  ? AppColor.adminBackgroundColor
-                                  : AppColor.adminTextColor,
-                              textColor: state.pageIndex == index
-                                  ? AppColor.adminTextColor
-                                  : AppColor.adminBackgroundColor,
-                              label: pages[index].title,
-                              onTap: () => context
-                                  .getBloc<AdminDashboardBloc>()
-                                  .add(AdminDashBoardChangePageEvent(index)),
-                            );
-                          },
-                        ),
-                      ),
+                          flex: 10,
+                          child: Column(
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: pages.length,
+                                itemBuilder: (context, index) {
+                                  return _buildSideBarItem(
+                                    backgroundColor: state.pageIndex == index
+                                        ? AppColor.adminBackgroundColor
+                                        : AppColor.adminTextColor,
+                                    textColor: state.pageIndex == index
+                                        ? AppColor.adminTextColor
+                                        : AppColor.adminBackgroundColor,
+                                    label: pages[index].title,
+                                    onTap: () => context
+                                        .getBloc<AdminDashboardBloc>()
+                                        .add(AdminDashBoardChangePageEvent(
+                                            index)),
+                                  );
+                                },
+                              ),
+                              const Spacer(),
+                              _buildSideBarItem(
+                                label: 'Logout',
+                                textColor: AppColor.adminBackgroundColor,
+                                onTap: ()=> context.getNavigator().pushAndRemoveUntil(screen: const ScreenType.adminLogin()),
+                              ), 
+                              SizedBox(height: 50.0.h)
+                            ],
+                          )),
                     ],
                   ),
                 ),
@@ -89,7 +103,36 @@ class AdminDashboardWidget extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 1,
-                      child: Container(color: AppColor.whiteColor),
+                      child: Container(
+                        padding: EdgeInsets.only(right: 50.0.w),
+                        color: AppColor.whiteColor,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Thanh Minh',
+                                  style: AppStyle.regular12
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 5.0.h),
+                                Text(
+                                  isAdmin ? 'Admin' : 'Staff',
+                                  style: AppStyle.regular12,
+                                )
+                              ],
+                            ),
+                            SizedBox(width: 10.0.w),
+                            CircleAvatar(
+                              radius: 20.0.w,
+                              backgroundImage: const NetworkImage(
+                                  'https://th.bing.com/th/id/OIP.YamThAfETQJZRHNHwcjeCAHaE7?rs=1&pid=ImgDetMain'),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     Expanded(
                       flex: 10,

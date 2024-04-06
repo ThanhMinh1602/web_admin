@@ -4,6 +4,7 @@ part of 'navigator.dart';
 class ScreenType with _$ScreenType {
   //web admin
   const factory ScreenType.adminDashBoard(bool isAdmin) = ScreenTypeAdDashBoard;
+  const factory ScreenType.adminLogin() = ScreenTypeAdLogin;
 }
 
 class ScreenTypeHelper {
@@ -12,6 +13,7 @@ class ScreenTypeHelper {
       adminDashBoard: (isAdmin) => AdminDashboardPage(
         isAdmin: isAdmin,
       ),
+      adminLogin: () => const AdminLoginPage(),
     );
   }
 }

@@ -1,33 +1,68 @@
+import 'dart:html';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:web_admin/common/constants/define_collection.dart';
 import 'package:web_admin/entities/models/login_request.dart';
-import 'package:web_admin/entities/models/signup_request.dart';
 import 'package:web_admin/entities/models/user_model.dart';
 import 'package:web_admin/services/sevice_status.dart';
 
 class AuthService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  Future<SignupResult> signUpWithEmail(SignupRequest signupRequest) async {
+  final storage = FirebaseStorage.instance;
+  Future<SignupResult> createStaff(UserModel userModel) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: signupRequest.email,
-        password: signupRequest.password,
+        email: userModel.email ?? '',
+        password: userModel.password ?? '',
       );
       String uid = userCredential.user!.uid;
+      String imagePath =
+          '${AppDefineCollection.APP_USER_AVATAR}/$uid/user_avatar';
+
+      final Reference ref = storage.ref().child(imagePath);
+      final UploadTask uploadTask = ref.putBlob(userModel.avatar!);
+      final TaskSnapshot downloadUrl = await uploadTask;
+      final String imageUrl = await downloadUrl.ref.getDownloadURL();
+
       final usermodel = UserModel(
-          email: signupRequest.email,
-          password: signupRequest.password,
-          avatar: 'https://avatar-management.services.atlassian.com/default/16',
-          name: signupRequest.name);
+          id: uid,
+          email: userModel.email,
+          password: userModel.password,
+          avatar: imageUrl,
+          name: userModel.name);
       await FirebaseFirestore.instance
           .collection(AppDefineCollection.APP_ACCOUNT)
           .doc(uid)
           .set(usermodel.toJson());
       return SignupResult.success;
     } catch (e) {
+      print("Error creating staff: $e");
       return SignupResult.emailAlreadyExists;
+    }
+  }
+
+  Future<void> deleteStaff(UserModel userModel) async {
+    try {
+      if (userModel.avatar != null) {
+        String imagePath =
+            '${AppDefineCollection.APP_USER_AVATAR}/${userModel.id}/user_avatar';
+        final Reference ref = storage.ref().child(imagePath);
+        await ref.delete();
+      }
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: userModel.email!,
+        password: userModel.password!,
+      );
+      await FirebaseAuth.instance.currentUser!.delete();
+      await _firestore
+          .collection(AppDefineCollection.APP_ACCOUNT)
+          .doc(userModel.id)
+          .delete();
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -80,7 +115,7 @@ class AuthService {
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
-  
+
   Future<void> updatePassword(String newPassword) async {
     try {
       User? currentUser = FirebaseAuth.instance.currentUser;
@@ -102,10 +137,12 @@ class AuthService {
     }
   }
 
-  Future<List<UserModel>> fetchUser() async {
+  Future<List<UserModel>> getCustomer() async {
     try {
-      final queryData =
-          await _firestore.collection(AppDefineCollection.APP_ACCOUNT).get();
+      final queryData = await _firestore
+          .collection(AppDefineCollection.APP_ACCOUNT)
+          .where('role', isEqualTo: 'customer')
+          .get();
       var userData =
           queryData.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
       return userData;
@@ -114,19 +151,50 @@ class AuthService {
     }
   }
 
-  Future<void> deleteStaff(UserModel userModel) async {
+  Future<List<UserModel>> getStaff() async {
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final queryData = await _firestore
+          .collection(AppDefineCollection.APP_ACCOUNT)
+          .where('role', isEqualTo: 'staff')
+          .get();
+      var userData =
+          queryData.docs.map((doc) => UserModel.fromJson(doc.data())).toList();
+      return userData;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateStaff(UserModel userModel, String oldPassword) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: userModel.email!,
-        password: userModel.password!,
+        password: oldPassword,
       );
-      FirebaseAuth.instance.currentUser!.delete();
+      userCredential.user!.updatePassword(userModel.password!);
+      if (userModel.avatar != null) {
+        String imagePath =
+            '${AppDefineCollection.APP_USER_AVATAR}/${userModel.id}/user_avatar';
+        final Reference ref = storage.ref().child(imagePath);
+        final UploadTask uploadTask = ref.putBlob(userModel.avatar!);
+        final TaskSnapshot downloadUrl = await uploadTask;
+        final String imageUrl = await downloadUrl.ref.getDownloadURL();
+        await _firestore
+            .collection(AppDefineCollection.APP_ACCOUNT)
+            .doc(userModel.id)
+            .update({...userModel.toJson(), 'avatar': imageUrl});
+        return;
+      }
       await _firestore
           .collection(AppDefineCollection.APP_ACCOUNT)
           .doc(userModel.id)
-          .delete();
+          .update({
+        'name': userModel.name,
+        'password': userModel.password,
+      });
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 }
