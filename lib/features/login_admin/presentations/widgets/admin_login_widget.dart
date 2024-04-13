@@ -87,26 +87,36 @@ class AdminLoginWidget extends StatelessWidget {
                             boderRadius: 5.0,
                             hintText: 'Enter your password',
                             validator: Validator.checkIsEmpty,
+                            onFieldSubmitted: (p0) {
+                              if (formKey.currentState!.validate()) {
+                                context.getBloc<AdminLoginBloc>().add(
+                                      AdminLoginEvents(
+                                        LoginRequest(
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                        ),
+                                      ),
+                                    );
+                              }
+                            },
                           ),
                           SizedBox(height: 61.h),
-                          Expanded(
-                            child: AppButton(
-                              boderRadius: 5.0.r,
-                              buttonText: 'Login',
-                              minimumSize: Size.fromHeight(60.0.h),
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  context.getBloc<AdminLoginBloc>().add(
-                                        AdminLoginEvents(
-                                          LoginRequest(
-                                            email: emailController.text,
-                                            password: passwordController.text,
-                                          ),
+                          AppButton(
+                            boderRadius: 5.0.r,
+                            buttonText: 'Login',
+                            minimumSize: Size(100.w,70.0.h),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                context.getBloc<AdminLoginBloc>().add(
+                                      AdminLoginEvents(
+                                        LoginRequest(
+                                          email: emailController.text,
+                                          password: passwordController.text,
                                         ),
-                                      );
-                                }
-                              },
-                            ),
+                                      ),
+                                    );
+                              }
+                            },
                           )
                         ],
                       ),

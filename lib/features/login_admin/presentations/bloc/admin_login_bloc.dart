@@ -24,6 +24,7 @@ class AdminLoginBloc extends Bloc<AdminLoginEvent, AdminLoginState> {
 extension ExtensionAdminLoginBloc on AdminLoginBloc {
   Future<void> _onInitialAdminLogin(
       AdminLoginInitialEvent event, Emitter<AdminLoginState> emitter) async {}
+      
   Future<void> _onAdminLogin(
       AdminLoginEvents event, Emitter<AdminLoginState> emitter) async {
     emitter(state.copyWith(isLoading: true));
@@ -37,6 +38,6 @@ extension ExtensionAdminLoginBloc on AdminLoginBloc {
     } else {
       emitter(state.copyWith(isLoading: false));
       EasyLoading.showError('Email or password is incorrect');
-    }
+    } 
   }
 }

@@ -1,12 +1,22 @@
+import 'dart:async';
 import 'dart:html' as html;
 
 class ImagePickerUseCase {
   Future<html.File?> call() async {
+    final completer = Completer<html.File?>();
     html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
+    uploadInput.accept = 'image/*';
     uploadInput.click();
-    await uploadInput.onChange.first;
-    final files = uploadInput.files;
+    uploadInput.onChange.listen((e) async {
+      final files = uploadInput.files;
 
-    return files?.isNotEmpty == true ? files![0] : null;
+      if (files != null && files.isNotEmpty) {
+        final selectedFile = files[0];
+        completer.complete(selectedFile);
+      } else {
+        completer.complete(null);
+      }
+    });
+    return completer.future;
   }
 }

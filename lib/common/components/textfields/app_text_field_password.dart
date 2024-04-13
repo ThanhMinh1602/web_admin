@@ -11,12 +11,14 @@ class AppTextFieldPassword extends StatefulWidget {
     this.hintText,
     this.fillColor = AppColor.whiteColor,
     this.boderRadius = 50.0,
+    this.onFieldSubmitted,
   });
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final String? hintText;
   final Color? fillColor;
   final double? boderRadius;
+  final void Function(String)? onFieldSubmitted;
   @override
   State<AppTextFieldPassword> createState() => _AppTextFieldEmailState();
 }
@@ -30,6 +32,7 @@ class _AppTextFieldEmailState extends State<AppTextFieldPassword> {
       validator: widget.validator,
       obscureText: _obscureText,
       style: AppStyle.regular12,
+      onFieldSubmitted: widget.onFieldSubmitted,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         errorStyle: TextStyle(

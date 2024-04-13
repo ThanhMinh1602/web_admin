@@ -60,7 +60,7 @@ class OrderWidget extends StatelessWidget {
                                 onTapShowDetailOrder: () => showDialog(
                                       context: context,
                                       builder: (_) {
-                                        return _buildFormShowOder(context,
+                                        return _buildFormShowOrder(context,
                                             payment: data);
                                       },
                                     ),
@@ -85,147 +85,162 @@ class OrderWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildFormShowOder(BuildContext context,
+  Widget _buildFormShowOrder(BuildContext context,
       {required PaymentModel payment}) {
     return BlocProvider.value(
       value: BlocProvider.of<OrderBloc>(context),
       child: BlocBuilder<OrderBloc, OrderState>(
         builder: (context, state) {
           return Form(
-              child: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.4,
-              height: MediaQuery.of(context).size.height * 0.8,
-              padding: EdgeInsets.all(20.0.h),
-              decoration: BoxDecoration(
-                color: AppColor.whiteColor,
-                borderRadius: BorderRadius.circular(10.0.r),
-              ),
-              child: Stack(
-                children: [
-                  ListView(
-                    children: [
-                      Text('Order #${payment.paymentId}',
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.4,
+                height: MediaQuery.of(context).size.height * 0.8,
+                padding: const EdgeInsets.all(20.0),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Stack(
+                  children: [
+                    ListView(
+                      children: [
+                        Text(
+                          'Order #${payment.paymentId}',
                           textAlign: TextAlign.center,
-                          style: AppStyle.regular14
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      SizedBox(height: 20.0.h),
-                      Row(
-                        children: [
-                          _buildCustomerInfoItem(
-                            icon: Icons.shopping_cart_rounded,
-                            title: 'Order created at',
-                            subTitle: payment.createdAt.toString(),
-                            backGroundColor: Colors.green.withOpacity(0.2),
-                            foregroundcolor:
-                                const Color.fromARGB(255, 0, 170, 43),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
-                          const SizedBox(width: 20.0),
-                          _buildCustomerInfoItem(
-                            icon: Icons.person,
-                            title: 'Name',
-                            subTitle: payment.customerName!,
-                            backGroundColor: Colors.red.withOpacity(0.2),
-                            foregroundcolor:
-                                const Color.fromARGB(255, 185, 0, 0),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20.0),
-                      Row(
-                        children: [
-                          _buildCustomerInfoItem(
-                            icon: Icons.email,
-                            title: 'Email',
-                            subTitle: payment.email!,
-                            backGroundColor: Colors.yellow.withOpacity(0.2),
-                            foregroundcolor:
-                                const Color.fromARGB(255, 187, 174, 0),
-                          ),
-                          const SizedBox(width: 20.0),
-                          _buildCustomerInfoItem(
-                            icon: Icons.phone,
-                            title: 'Phone number',
-                            subTitle: payment.phoneNumber!,
-                            backGroundColor: Colors.blueAccent.withOpacity(0.2),
-                            foregroundcolor:
-                                const Color.fromARGB(255, 0, 139, 231),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.0.w),
-                      Expanded(
-                          child: Container(
-                        padding: EdgeInsets.all(20.0.h),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppColor.greyColor),
-                          borderRadius: BorderRadius.circular(10.0.r),
                         ),
-                        child: Column(
+                        const SizedBox(height: 20.0),
+                        Row(
                           children: [
-                            _buildListRightItem(
-                              title: 'Total price:',
-                              label: FormatText.formatUSD(payment.totalPrice!),
+                            _buildCustomerInfoItem(
+                              icon: Icons.shopping_cart_rounded,
+                              title: 'Order created at',
+                              subTitle: payment.createdAt.toString(),
+                              backGroundColor: Colors.green.withOpacity(0.2),
+                              foregroundcolor:
+                                  const Color.fromARGB(255, 0, 170, 43),
                             ),
-                            _buildListRightItem(
-                              title: 'Total product:',
-                              label: payment.totalProduct.toString(),
+                            const SizedBox(width: 20.0),
+                            _buildCustomerInfoItem(
+                              icon: Icons.person,
+                              title: 'Name',
+                              subTitle: payment.customerName ?? '',
+                              backGroundColor: Colors.red.withOpacity(0.2),
+                              foregroundcolor:
+                                  const Color.fromARGB(255, 185, 0, 0),
                             ),
-                            SizedBox(height: 10.0.h),
-                            _buildListRightItem(
-                                title: 'Address:', label: payment.address),
-                            SizedBox(height: 10.0.h),
-                            _buildListRightItem(
-                                title: 'Note:', label: payment.note),
-                            SizedBox(height: 10.0.h),
-                            _buildListRightItem(
-                                title: 'Payment method:',
-                                label: payment.paymentMethod),
-                            _buildListRightItem(
-                                title: 'Payment status:',
-                                label:
-                                    payment.paymentStatus ? 'Paid' : 'Unpaid'),
                           ],
                         ),
-                      )),
-                      SizedBox(height: 20.0.h),
-                      Container(
-                        padding: EdgeInsets.all(20.0.h),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppColor.greyColor),
-                          borderRadius: BorderRadius.circular(10.0.r),
-                        ),
-                        child: Column(
+                        const SizedBox(height: 20.0),
+                        Row(
                           children: [
-                            ...List.generate(
-                              payment.cartData.length,
-                              (index) {
-                                final product = payment.cartData[index];
-                                return _buildOderItemDetailList(
+                            _buildCustomerInfoItem(
+                              icon: Icons.email,
+                              title: 'Email',
+                              subTitle: payment.email ?? '',
+                              backGroundColor: Colors.yellow.withOpacity(0.2),
+                              foregroundcolor:
+                                  const Color.fromARGB(255, 187, 174, 0),
+                            ),
+                            const SizedBox(width: 20.0),
+                            _buildCustomerInfoItem(
+                              icon: Icons.phone,
+                              title: 'Phone number',
+                              subTitle: payment.phoneNumber ?? '',
+                              backGroundColor:
+                                  Colors.blueAccent.withOpacity(0.2),
+                              foregroundcolor:
+                                  const Color.fromARGB(255, 0, 139, 231),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20.0),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Column(
+                              children: [
+                                _buildListRightItem(
+                                  title: 'Total price:',
+                                  label: FormatText.formatUSD(
+                                      payment.totalPrice ?? 0),
+                                ),
+                                _buildListRightItem(
+                                  title: 'Total product:',
+                                  label: payment.totalProduct.toString(),
+                                ),
+                                const SizedBox(height: 10.0),
+                                _buildListRightItem(
+                                  title: 'Address:',
+                                  label: payment.address ?? '',
+                                ),
+                                const SizedBox(height: 10.0),
+                                _buildListRightItem(
+                                  title: 'Note:',
+                                  label: payment.note ?? '',
+                                ),
+                                const SizedBox(height: 10.0),
+                                _buildListRightItem(
+                                  title: 'Payment method:',
+                                  label: payment.paymentMethod ?? '',
+                                ),
+                                _buildListRightItem(
+                                  title: 'Payment status:',
+                                  label:
+                                      payment.paymentStatus ? 'Paid' : 'Unpaid',
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+                        Container(
+                          padding: const EdgeInsets.all(20.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Column(
+                            children: [
+                              ...List.generate(
+                                payment.cartData.length,
+                                (index) {
+                                  final product = payment.cartData[index];
+                                  return _buildOrderItemDetailList(
                                     name: product.productName,
                                     pathImage: product.productImage,
                                     price: product.productPrice.toString(),
                                     size: product.size.toString(),
-                                    quantity: product.quantity.toString());
-                              },
-                            ),
-                          ],
+                                    quantity: product.quantity.toString(),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: IconButton(
-                      onPressed: () => context.getNavigator().pop(),
-                      icon: const Icon(Icons.close),
+                      ],
                     ),
-                  ),
-                ],
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: const Icon(Icons.close),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ));
+          );
         },
       ),
     );
@@ -396,7 +411,7 @@ class OrderWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildOderItemDetailList({
+  Widget _buildOrderItemDetailList({
     String? name,
     String? price,
     String? size,

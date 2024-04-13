@@ -54,7 +54,7 @@ class ProductService {
             id: docId,
             categoryId: product.cateId,
             name: product.productName,
-            image: imageUrl,
+            image: imageUrl,  
             price: product.price,
             description: product.desctiption,
             sizes: sizes,
